@@ -1,4 +1,4 @@
-import GoogleToken from "@src/application/auth/google-token";
+import GoogleToken from "@src/application/auth/GoogleToken";
 
 class CallbackPageViewModel {
 

@@ -1,11 +1,11 @@
-import GoogleToken from "@src/application/auth/google-token";
-import OauthConfig from "@src/application/auth/oauth-config";
+import AuthBehavior from "@src/application/auth/behavior/AuthBehavior";
+import GoogleToken from "@src/application/auth/GoogleToken";
 
 export class LoginPageViewModel {
 
   constructor(
     private googleToken: GoogleToken,
-    private oauthConfig: OauthConfig
+    private behaviors: Map<string, AuthBehavior>
   ) {
   }
 
@@ -14,18 +14,15 @@ export class LoginPageViewModel {
     window.location.href = this.googleToken.createOauthUrl(scope);
   }
 
-  oauthLogin() {
-    const popup = window.open(
-      this.oauthConfig.createOauthUrl(),
-      'Login',
-      'width=500,height=600'
-    );
+  async onLogin(type: string): Promise<void> {
+    const behavior = this.behaviors.get(type) ?? null;
 
-    window.addEventListener('message', (event) => {
-      if (event.origin === this.oauthConfig.apiHost) {
-        console.log('Authorization Code:', event.data.token);
-        popup?.close();
-      }
-    });
+    if (!behavior) {
+      window.alert('Provider not implemented');
+      return;
+    }
+
+    await behavior.execute()
   }
 }
+

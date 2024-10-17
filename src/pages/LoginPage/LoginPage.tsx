@@ -4,7 +4,7 @@ const LoginPage = ({viewModel}: { viewModel: LoginPageViewModel }) => {
   return (
     <>
       <h1>歡迎您，請先登入</h1>
-      <button onClick={() => viewModel.oauthLogin()}>街口登入</button>
+      <button onClick={() => viewModel.onLogin("custom")}>街口登入</button>
     </>
   )
 }
