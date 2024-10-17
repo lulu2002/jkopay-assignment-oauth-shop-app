@@ -1,13 +1,31 @@
-import GoogleToken from "../../application/auth/google-token.ts";
+import GoogleToken from "@src/application/auth/google-token";
+import OauthConfig from "@src/application/auth/oauth-config";
 
 export class LoginPageViewModel {
 
-  constructor(private googleToken: GoogleToken) {
+  constructor(
+    private googleToken: GoogleToken,
+    private oauthConfig: OauthConfig
+  ) {
   }
 
-  googleLogin() {
-    const scope = "openid profile email"; // 要请求的权限
+  googleOAuth() {
+    const scope = "openid profile email";
     window.location.href = this.googleToken.createOauthUrl(scope);
   }
 
+  oauthLogin() {
+    const popup = window.open(
+      this.oauthConfig.createOauthUrl(),
+      'Login',
+      'width=500,height=600'
+    );
+
+    window.addEventListener('message', (event) => {
+      if (event.origin === this.oauthConfig.apiHost) {
+        console.log('Authorization Code:', event.data.token);
+        popup?.close();
+      }
+    });
+  }
 }

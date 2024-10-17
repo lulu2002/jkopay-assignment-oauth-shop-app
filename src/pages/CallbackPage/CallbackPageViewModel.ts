@@ -1,4 +1,4 @@
-import GoogleToken from "../../application/auth/google-token.ts";
+import GoogleToken from "@src/application/auth/google-token";
 
 class CallbackPageViewModel {
 

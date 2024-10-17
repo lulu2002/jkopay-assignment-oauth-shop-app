@@ -1,6 +1,6 @@
-import CallbackPageViewModel from "./CallbackPageViewModel.ts";
 import {useLocation} from "react-router-dom";
 import {useEffect} from "react";
+import CallbackPageViewModel from "@src/pages/CallbackPage/CallbackPageViewModel";
 
 const CallbackPage = ({viewModel}: { viewModel: CallbackPageViewModel }) => {
   const location = useLocation();

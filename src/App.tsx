@@ -1,10 +1,11 @@
 import './App.css'
-import LoginPage from "./pages/LoginPage/LoginPage.tsx";
-import {LoginPageViewModel} from "./pages/LoginPage/LoginPageViewModel.ts";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import CallbackPage from "./pages/CallbackPage/CallbackPage.tsx";
-import GoogleToken from "./application/auth/google-token.ts";
-import CallbackPageViewModel from "./pages/CallbackPage/CallbackPageViewModel.ts";
+import LoginPage from "@src/pages/LoginPage/LoginPage";
+import GoogleToken from "@src/application/auth/google-token";
+import OauthConfig from "@src/application/auth/oauth-config";
+import {LoginPageViewModel} from "@src/pages/LoginPage/LoginPageViewModel";
+import CallbackPage from "@src/pages/CallbackPage/CallbackPage";
+import CallbackPageViewModel from "@src/pages/CallbackPage/CallbackPageViewModel";
 
 function App() {
 
@@ -14,6 +15,12 @@ function App() {
     "http://localhost:5173/callback"
   );
 
+  const oauthConfig = new OauthConfig(
+    "http://localhost:5174",
+    "login",
+    "test_client",
+    "http://localhost:5173/callback"
+  )
 
   return (
     <>
@@ -21,7 +28,7 @@ function App() {
         <div className="App">
           <h1>好酷商城</h1>
           <Routes>
-            <Route path="/" element={<LoginPage viewModel={new LoginPageViewModel(googleToken)}/>}/>
+            <Route path="/" element={<LoginPage viewModel={new LoginPageViewModel(googleToken, oauthConfig)}/>}/>
             <Route path="/callback" element={<CallbackPage viewModel={new CallbackPageViewModel(googleToken)}/>}/>
           </Routes>
         </div>

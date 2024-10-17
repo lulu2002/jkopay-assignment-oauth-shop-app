@@ -1,10 +1,10 @@
-import {LoginPageViewModel} from "./LoginPageViewModel.ts";
+import {LoginPageViewModel} from "@src/pages/LoginPage/LoginPageViewModel";
 
 const LoginPage = ({viewModel}: { viewModel: LoginPageViewModel }) => {
   return (
     <>
       <h1>歡迎您，請先登入</h1>
-      <button onClick={() => viewModel.googleLogin()}>街口登入</button>
+      <button onClick={() => viewModel.oauthLogin()}>街口登入</button>
     </>
   )
 }
