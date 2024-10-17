@@ -7,4 +7,6 @@ export interface OauthExchangeContext {
 
 export type OauthExchangeResult =
   { success: true; token: string; } |
-  { success: false; message: 'invalid_code' | 'invalid_client' | 'invalid_redirect_uri' | 'server_error' };
+  { success: false; message: OauthExchangeResultMessage; };
+
+export type OauthExchangeResultMessage = 'invalid_code' | 'invalid_client' | 'invalid_redirect_uri' | 'server_error' | 'unknown_error';

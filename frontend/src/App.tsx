@@ -8,6 +8,8 @@ import GoogleToken from "@src/application/auth/GoogleToken";
 import OauthConfig from "@src/application/auth/OauthConfig";
 import AuthBehaviorCustom from "@src/application/auth/behavior/AuthBehaviorCustom";
 import RetrieveAuthCodeImpl from "@src/application/auth/code/RetrieveAuthCodeImpl";
+import UserProxyAxios from "@src/adapters/auth/UserProxyAxios";
+import axios from "axios";
 
 function App() {
 
@@ -24,7 +26,8 @@ function App() {
     "http://localhost:5173/callback"
   )
 
-  const authBehavior = new AuthBehaviorCustom(new RetrieveAuthCodeImpl(oauthConfig));
+  const userProxy = new UserProxyAxios(axios.create({baseURL: import.meta.env.VITE_API_URL}));
+  const authBehavior = new AuthBehaviorCustom(new RetrieveAuthCodeImpl(oauthConfig), oauthConfig, userProxy);
 
   return (
     <>
