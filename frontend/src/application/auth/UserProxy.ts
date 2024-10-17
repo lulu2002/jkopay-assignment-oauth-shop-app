@@ -1,3 +1,3 @@
 export default interface UserProxy {
-  oauthLogin(token: string): Promise<void>;
+  oauthLogin(token: string, redirectUri: string): Promise<void>;
 }

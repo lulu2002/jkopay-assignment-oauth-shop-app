@@ -32,7 +32,7 @@ class CallbackPageViewModel {
     }
 
     const data = await response.json();
-    console.log("Access Token:", data.access_token);
+    console.log(data)
     await this.getUserInfo(data.access_token);
   };
 
