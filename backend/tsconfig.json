@@ -13,8 +13,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strict": true,
-    "moduleResolution": "bundler",
-    "outDir": "./build",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
     "rootDir": "./",
     "baseUrl": ".",
     "paths": {

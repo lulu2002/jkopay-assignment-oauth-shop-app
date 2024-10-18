@@ -1,4 +1,5 @@
 import "reflect-metadata"
+import 'tsconfig-paths/register';
 import fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyJwt from "@fastify/jwt";
@@ -8,12 +9,9 @@ import OauthProxyAxios from "@src/adapters/auth/oauth-proxy-axios";
 import axios from "axios";
 import {DataSource} from "typeorm";
 import {UserEntity, UserRepositoryTypeOrm} from "@src/adapters/user/user-repository-type-orm";
-import dotenv from "dotenv";
 import process from "node:process";
 
 async function main() {
-  dotenv.config({path: '../.env'});
-
   const fastifyInstance = fastify();
   fastifyInstance.register(fastifyCors, {origin: true});
   fastifyInstance.register(fastifyJwt, {secret: process.env.JWT_SECRET!});
@@ -38,7 +36,7 @@ async function main() {
 
   userController.registerRoutes(fastifyInstance);
 
-  fastifyInstance.listen({port: Number(process.env.PORT!)}, (err, address) => {
+  fastifyInstance.listen({host:process.env.HOST!, port: Number(process.env.PORT!)}, (err, address) => {
     if (err) {
       console.error(err)
       process.exit(1)
