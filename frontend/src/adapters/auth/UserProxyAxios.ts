@@ -27,14 +27,4 @@ export default class UserProxyAxios implements UserProxy {
     }
   }
 
-  // async oauthLogin(token: string,): Promise<OauthLoginResponse> {
-  //
-  //     try {
-  //         const response = await this.axios.get<OauthLoginResponse>('/api/login/oauth', {
-  //         });
-  //     } catch (error) {
-  //         console.error('Failed to login:', error);
-  //     }
-  // }
-
 }
