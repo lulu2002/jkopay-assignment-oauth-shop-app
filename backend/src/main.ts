@@ -20,7 +20,7 @@ async function main() {
 
   const dataSource = new DataSource({
     type: 'sqlite',
-    database: 'database.sqlite',
+    database: '../database.sqlite',
     entities: [UserEntity],
     synchronize: true,
     logging: true,
