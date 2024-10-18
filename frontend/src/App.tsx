@@ -1,23 +1,16 @@
 import './App.css'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import LoginPage from "@src/pages/LoginPage/LoginPage";
 import {LoginPageViewModel} from "@src/pages/LoginPage/LoginPageViewModel";
-import CallbackPage from "@src/pages/CallbackPage/CallbackPage";
-import CallbackPageViewModel from "@src/pages/CallbackPage/CallbackPageViewModel";
-import GoogleToken from "@src/application/auth/GoogleToken";
 import OauthConfig from "@src/application/auth/OauthConfig";
 import AuthBehaviorCustom from "@src/application/auth/behavior/AuthBehaviorCustom";
 import RetrieveAuthCodeImpl from "@src/application/auth/code/RetrieveAuthCodeImpl";
 import UserProxyAxios from "@src/adapters/auth/UserProxyAxios";
 import axios from "axios";
+import PrivateRoute from "@src/components/PrivateRoute";
+import HomePage from "@src/pages/HomePage/HomePage";
 
 function App() {
-
-  const googleToken = new GoogleToken(
-    "5495039569-gso04ni4901r5amm4sdtge6nvd4nld40.apps.googleusercontent.com",
-    "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",
-    "http://localhost:5173/callback"
-  );
 
   const oauthConfig = new OauthConfig(
     "http://localhost:5174",
@@ -29,16 +22,25 @@ function App() {
   const userProxy = new UserProxyAxios(axios.create({baseURL: import.meta.env.VITE_API_URL}));
   const authBehavior = new AuthBehaviorCustom(new RetrieveAuthCodeImpl(oauthConfig), oauthConfig, userProxy);
 
+
   return (
     <>
       <Router>
         <div className="App">
           <h1>好酷商城</h1>
           <Routes>
-            <Route path="/" element={<LoginPage viewModel={new LoginPageViewModel(googleToken, new Map([
+            <Route path="/" element={<Navigate to="/home" replace/>}/>
+            <Route path="/login" element={<LoginPage viewModel={new LoginPageViewModel(new Map([
               ['custom', authBehavior],
             ]))}/>}/>
-            <Route path="/callback" element={<CallbackPage viewModel={new CallbackPageViewModel(googleToken)}/>}/>
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <HomePage/>
+                </PrivateRoute>
+              }
+            />
           </Routes>
         </div>
       </Router>

@@ -1,4 +1,4 @@
 export default interface AuthBehavior {
-  execute(): Promise<void>;
+  execute(): Promise<boolean>;
 }
 

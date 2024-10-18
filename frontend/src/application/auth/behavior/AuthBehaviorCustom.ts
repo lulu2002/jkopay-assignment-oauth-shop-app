@@ -12,12 +12,16 @@ export default class AuthBehaviorCustom implements AuthBehavior {
   ) {
   }
 
-  async execute(): Promise<void> {
+  async execute(): Promise<boolean> {
     const code = await this.retrieveAuthCode.retrieve();
     const res = await this.proxy.oauthLogin(code, this.config.redirectUri);
 
-    if (res.success)
+    if (res.success) {
       localStorage.setItem('jkopay-shop-token', res.token);
+      return true;
+    }
+
+    return false;
   }
 
 
