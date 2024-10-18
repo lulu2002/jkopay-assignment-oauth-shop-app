@@ -8,11 +8,15 @@ import OauthProxyAxios from "@src/adapters/auth/oauth-proxy-axios";
 import axios from "axios";
 import {DataSource} from "typeorm";
 import {UserEntity, UserRepositoryTypeOrm} from "@src/adapters/user/user-repository-type-orm";
+import dotenv from "dotenv";
+import process from "node:process";
 
 async function main() {
+  dotenv.config({path: '../.env'});
+
   const fastifyInstance = fastify();
   fastifyInstance.register(fastifyCors, {origin: true});
-  fastifyInstance.register(fastifyJwt, {secret: ",OFpPS'8.vN9WD9M+n(g6@a2'sS9afNJ8imkH4PU=L-G.]nh#^"});
+  fastifyInstance.register(fastifyJwt, {secret: process.env.JWT_SECRET!});
 
   const dataSource = new DataSource({
     type: 'sqlite',
@@ -24,17 +28,17 @@ async function main() {
 
   await dataSource.initialize()
 
-  const proxy = new OauthProxyAxios(axios.create({baseURL: "http://localhost:8080"}));
+  const proxy = new OauthProxyAxios(axios.create({baseURL: process.env.OAUTH_HOST!}));
   const repository = new UserRepositoryTypeOrm(dataSource);
   const config: OauthClientConfig = {
-    clientId: "test_client",
-    clientSecret: "test_secret"
+    clientId: process.env.OAUTH_CLIENT_ID!,
+    clientSecret: process.env.OAUTH_CLIENT_SECRET!,
   }
   const userController = new UserController(proxy, config, repository)
 
   userController.registerRoutes(fastifyInstance);
 
-  fastifyInstance.listen({port: 8081}, (err, address) => {
+  fastifyInstance.listen({port: Number(process.env.PORT!)}, (err, address) => {
     if (err) {
       console.error(err)
       process.exit(1)
