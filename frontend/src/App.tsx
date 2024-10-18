@@ -12,16 +12,17 @@ import HomePage from "@src/pages/HomePage/HomePage";
 
 function App() {
 
+  const env = import.meta.env;
+
   const oauthConfig = new OauthConfig(
-    "http://localhost:5174",
-    "login",
-    "test_client",
-    "http://localhost:5173/callback"
+    env.VITE_OAUTH_API_HOST,
+    env.VITE_OAUTH_API_PATH,
+    env.VITE_OAUTH_CLIENT_ID,
+    env.VITE_OAUTH_REDIRECT_URI
   )
 
   const userProxy = new UserProxyAxios(axios.create({baseURL: import.meta.env.VITE_API_URL}));
   const authBehavior = new AuthBehaviorCustom(new RetrieveAuthCodeImpl(oauthConfig), oauthConfig, userProxy);
-
 
   return (
     <>
